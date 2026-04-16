@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/Savvy SDK/4.5.0/Project template/App/Scenes/Bootstrap.unity
+    path: Assets/App/Scenes/Bootstrap.unity
     guid: 4b445d868247a064c8b24a562c659b77
   - enabled: 1
-    path: Assets/Samples/Savvy SDK/4.5.0/Project template/App/Scenes/Game.unity
+    path: Assets/App/Scenes/Game.unity
     guid: f4bdea5e80ba5714eb2050d1192fa925
   - enabled: 1
-    path: Assets/Samples/Savvy SDK/4.5.0/Project template/App/Scenes/Menu.unity
+    path: Assets/App/Scenes/Menu.unity
     guid: 378a82c8f14f5654b92e1c089b5911ac
   m_configObjects: {}
