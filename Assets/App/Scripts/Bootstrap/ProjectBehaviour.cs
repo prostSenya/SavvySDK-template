@@ -7,6 +7,7 @@ using App.Scripts.Interfaces.StaticData;
 using App.Scripts.Interfaces.Statistics;
 using App.Scripts.Interfaces.TestServices;
 using App.Scripts.Interfaces.UI;
+using App.Scripts.Interfaces.Vibration;
 using App.Scripts.Interfaces.Windows;
 using App.Scripts.Services.Analytics;
 using App.Scripts.Services.Currency;
@@ -15,6 +16,7 @@ using App.Scripts.Services.GameStateMachine;
 using App.Scripts.Services.StaticData;
 using App.Scripts.Services.Statistics;
 using App.Scripts.Services.UI;
+using App.Scripts.Services.Vibration;
 using App.Scripts.Services.Windows;
 using Samples.Savvy_SDK._4._5._0.Project_template.App.Scripts.Services.TestServices;
 using Savvy.Bootstrap;
@@ -43,6 +45,8 @@ namespace App.Scripts.Bootstrap
             RegisterService<IWindowsFactory>(new WindowsFactory());
             RegisterService<ICurrencyService>(new CurrencyService());
             RegisterService<ITestService>(new TestService());
+            RegisterService<ICustomVibrationAdapter>(new AndroidVibrationAdapter());
+            RegisterService<ICustomVibrationService>(new CustomVibrationService());
         }
 
         protected override void RegisterStates(IGameStateMachine gameStateMachine)
