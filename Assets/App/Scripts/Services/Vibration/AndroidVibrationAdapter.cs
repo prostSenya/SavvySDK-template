@@ -37,5 +37,10 @@ namespace App.Scripts.Services.Vibration
 			
 			_vibrator.Call("vibrate", info.Duration);
 		}
+
+		public void Dispose()
+		{
+			_vibrator?.Dispose();
+		}
 	}
 }

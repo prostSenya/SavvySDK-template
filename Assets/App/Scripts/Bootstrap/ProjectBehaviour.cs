@@ -18,7 +18,6 @@ using App.Scripts.Services.Statistics;
 using App.Scripts.Services.UI;
 using App.Scripts.Services.Vibration;
 using App.Scripts.Services.Windows;
-using Samples.Savvy_SDK._4._5._0.Project_template.App.Scripts.Services.TestServices;
 using Savvy.Bootstrap;
 using Savvy.Interfaces;
 
@@ -44,9 +43,15 @@ namespace App.Scripts.Bootstrap
             RegisterService<IUIService>(new UIService());
             RegisterService<IWindowsFactory>(new WindowsFactory());
             RegisterService<ICurrencyService>(new CurrencyService());
-            RegisterService<ITestService>(new TestService());
-            RegisterService<ICustomVibrationAdapter>(new AndroidVibrationAdapter());
             RegisterService<ICustomVibrationService>(new CustomVibrationService());
+            
+#if UNITY_ANDROID
+            RegisterService<ICustomVibrationAdapter>(new AndroidVibrationAdapter());
+#elif UNITY_IOS
+            RegisterService<ICustomVibrationAdapter>(new IosVibrationAdapter());
+#else
+            RegisterService<ICustomVibrationAdapter>(new DummyVibrationAdapter());
+#endif
         }
 
         protected override void RegisterStates(IGameStateMachine gameStateMachine)

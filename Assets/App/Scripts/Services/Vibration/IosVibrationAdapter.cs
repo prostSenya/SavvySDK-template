@@ -13,5 +13,10 @@ namespace App.Scripts.Services.Vibration
         {
             Debug($"iOS vibrate: force={force}");
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

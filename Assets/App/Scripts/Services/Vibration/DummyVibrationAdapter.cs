@@ -12,5 +12,10 @@ namespace App.Scripts.Services.Vibration
         public void Vibrate(VibrationForce force)
         {
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }
