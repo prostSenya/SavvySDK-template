@@ -1,4 +1,3 @@
-using Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android;
 using Savvy.Container;
 
 namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Ios
@@ -23,6 +22,16 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Ios
 		}
 		
 		public bool IsSupported() => 
-			true; 
+			true;
+
+		public void Vibrate(VibrationType vibrationType)
+		{
+			
+		}
+
+		public void Vibrate(float force, float duration)
+		{
+			
+		}
 	}
 }

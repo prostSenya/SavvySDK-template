@@ -8,5 +8,7 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters
 		void SetEnable(bool isEnable);
 		void Cancel();
 		bool IsSupported();
+		void Vibrate(VibrationType vibrationType);
+		void Vibrate(float force, float duration);
 	}
 }

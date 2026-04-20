@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android
@@ -5,6 +6,8 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android
 	[CreateAssetMenu(fileName = nameof(AndroidVibrationConfig), menuName = "Config/"+nameof(AndroidVibrationConfig))]
 	public class AndroidVibrationConfig : ScriptableObject
 	{
-		
+		[field: SerializeField] private List<VibrationData> _vibrationDatas;
+
+		public IReadOnlyList<VibrationData> VibrationDatas => _vibrationDatas;
 	}
 }
