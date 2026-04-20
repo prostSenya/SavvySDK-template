@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 056532581e3fe7346b9878b87e8b9973, type: 3}
   m_Name: SavvyServicesSettings
   m_EditorClassIdentifier: 
-  _debug: 0
   _coroutineRunner: 1
   _eventBus: 1
   _gameObjectFactory: 1
@@ -28,20 +27,21 @@ MonoBehaviour:
   _gameAnalytics: 0
   _tenjin: 0
   _addressables: 0
-  _audio: 1
+  _audio: 0
   _countryChecker: 0
-  _curtain: 1
-  _gameStateMachine: 1
+  _curtain: 0
+  _gameStateMachine: 0
   _identifier: 0
   _instanceFactory: 0
-  _localization: 1
-  _mediation: 1
+  _localization: 0
+  _mediation: 0
+  _monoTick: 0
   _notification: 0
   _numberFormat: 0
-  _quality: 1
+  _quality: 0
   _random: 0
-  _saveLoad: 1
-  _sceneLoader: 1
+  _saveLoad: 0
+  _sceneLoader: 0
   _social: 0
   _time: 0
   _vibration: 0
