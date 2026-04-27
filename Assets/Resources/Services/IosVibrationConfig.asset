@@ -12,3 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66790d1c437b4c40b3810ba056fb14df, type: 3}
   m_Name: IosVibrationConfig
   m_EditorClassIdentifier: 
+  _vibrationDatas:
+  - <VibrationType>k__BackingField: 1
+    <Force>k__BackingField: 0.01
+    <Duration>k__BackingField: 0.2
+  - <VibrationType>k__BackingField: 2
+    <Force>k__BackingField: 0.5
+    <Duration>k__BackingField: 0.2
+  - <VibrationType>k__BackingField: 3
+    <Force>k__BackingField: 1
+    <Duration>k__BackingField: 0.2

@@ -7,6 +7,7 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters
 	{
 		bool IsEnabled { get; }
 		bool IsSupported { get; }
+		bool SupportsForceControl { get; }
 		void SetEnable(bool isEnable);
 		void Vibrate(float force, float duration);
 		void Vibrate(VibrationType vibrationType);

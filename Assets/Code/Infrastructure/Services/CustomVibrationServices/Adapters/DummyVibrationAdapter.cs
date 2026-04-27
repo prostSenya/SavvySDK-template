@@ -6,6 +6,7 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters
 		public bool IsEnabled { get; private set; }
 
 		bool IVibrationAdapter.IsSupported => _isSupported;
+		public bool SupportsForceControl => false;
 
 		public void SetEnable(bool isEnable)
 		{
@@ -30,7 +31,6 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters
 
 		public void Dispose()
 		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

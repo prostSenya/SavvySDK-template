@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vibrationDatas:
   - <VibrationType>k__BackingField: 1
-    <Force>k__BackingField: 0.106
+    <Force>k__BackingField: 0.01
     <Duration>k__BackingField: 0.2
   - <VibrationType>k__BackingField: 2
-    <Force>k__BackingField: 0.482
+    <Force>k__BackingField: 0.5
     <Duration>k__BackingField: 0.2
   - <VibrationType>k__BackingField: 3
     <Force>k__BackingField: 800

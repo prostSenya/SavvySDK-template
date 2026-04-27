@@ -1,6 +1,7 @@
 ﻿using Code.Infrastructure.Services.CustomVibrationServices;
 using Code.Infrastructure.Services.CustomVibrationServices.Adapters;
 using Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android;
+using Code.Infrastructure.Services.CustomVibrationServices.Adapters.Ios;
 using Savvy.Bootstrap;
 
 namespace Code.Infrastructure.Scopes

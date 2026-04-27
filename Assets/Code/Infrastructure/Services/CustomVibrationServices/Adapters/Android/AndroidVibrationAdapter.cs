@@ -35,6 +35,7 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android
 		}
 
 		public bool IsSupported { get; private set; }
+		public bool SupportsForceControl { get; }
 		public bool IsEnabled { get; private set; }
 
 		public void Inject() => 
