@@ -6,5 +6,7 @@ namespace Code.Infrastructure.Services.CustomVibrationServices
 	{
 		bool IsEnabled { get; }
 		void SetEnabled(bool enabled);
+		void Vibrate(VibrationType vibrationType);
+		void Vibrate(float force, float duration);
 	}
 }

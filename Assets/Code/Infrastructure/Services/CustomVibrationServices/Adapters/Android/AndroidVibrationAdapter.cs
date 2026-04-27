@@ -1,7 +1,8 @@
+#if UNITY_ANDROID
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Savvy.Container;
 using Savvy.Interfaces;
 using UnityEngine;
@@ -11,29 +12,33 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android
 	public class AndroidVibrationAdapter : NetSavvy, IVibrationAdapter
 	{
 		private const string IsVibrationEnablePreferenceKey = "IsVibrationEnable";
-
+		
+		private const int AndroidOreoApiLevel = 26; // API Oreo 8.0+
+		private const int DefaultAmplitude = -1;
+		private const int MinAmplitude = 1;
+		private const int MaxAmplitude = 255;
+		
 		private readonly Dictionary<VibrationType, VibrationData> _vibrationDatas;
-		private readonly object _lock = new();
 
 		private IPreferencesService _preferencesService;
 		private AndroidJavaObject _androidVibrator;
 		private AndroidJavaClass _vibrationEffectClass;
+		private AndroidJavaClass _buildVersionClass;
 		private int _androidApiLevel;
-		private CancellationTokenSource _cts;
+		private bool _hasAmplitudeControl;
 
 		public AndroidVibrationAdapter()
 		{
-			_vibrationDatas = ScriptableObjectLoader.LoadResource<AndroidVibrationConfig>()
+			_vibrationDatas = ScriptableObjectLoader.LoadSettings<AndroidVibrationConfig>()
 				.VibrationDatas
 				.ToDictionary(x => x.VibrationType, x => x);
 		}
 
+		public bool IsSupported { get; private set; }
 		public bool IsEnabled { get; private set; }
 
-		public void Inject()
-		{
+		public void Inject() => 
 			_preferencesService = GetService<IPreferencesService>();
-		}
 
 		public void Init()
 		{
@@ -43,20 +48,32 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android
 				using (var currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
 				{
 					_androidVibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-					_androidApiLevel = new AndroidJavaClass("android.os.Build$VERSION").GetStatic<int>("SDK_INT");
+					_buildVersionClass = new AndroidJavaClass("android.os.Build$VERSION");
+					_androidApiLevel = _buildVersionClass.GetStatic<int>("SDK_INT");
+
+					if (_androidApiLevel >= AndroidOreoApiLevel)
+					{
+						_vibrationEffectClass = new AndroidJavaClass("android.os.VibrationEffect");
+						_hasAmplitudeControl = _androidVibrator != null &&
+						                       _androidVibrator.Call<bool>("hasAmplitudeControl");
+					}
+					
+					IsSupported = _androidVibrator != null && _androidVibrator.Call<bool>("hasVibrator");
                 
-					if (_androidApiLevel >= 26) // Oreo 8.0+
+					if (_androidApiLevel >= AndroidOreoApiLevel) 
 					{
 						_vibrationEffectClass = new AndroidJavaClass("android.os.VibrationEffect");
 					}
 				}
 				
-				Debug("Android haptics initialized. API Level: " + _androidApiLevel);
+				Debug($"Android haptics initialized. API Level: {_androidApiLevel}. Amplitude control: {_hasAmplitudeControl}");
 			}
-			catch (Exception e)
+			catch (Exception exception)
 			{
-				Error("Android haptics initialization failed: " + e.Message);
+				Error($"Android haptics initialization failed: {exception.Message}");
 			}
+			
+			IsEnabled = _preferencesService.GetBool(IsVibrationEnablePreferenceKey);
 		}
 
 		public void SetEnable(bool isEnable)
@@ -84,20 +101,90 @@ namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Android
 			if (IsEnabled == false)
 				return;
 
-			lock (_lock)
+			if (IsSupported == false)
+				return;
+
+			if (duration <= 0f)
+				return;
+
+			force = Mathf.Clamp01(force);
+
+			if (force <= 0f)
 			{
-				_cts?.Dispose();
-				_cts = new CancellationTokenSource();
+				Cancel();
+				return;
+			}
+			
+			long durationMs = Mathf.Max(1, Mathf.RoundToInt(duration * 1000f));
+
+			try
+			{
+				if (_androidApiLevel >= AndroidOreoApiLevel && _vibrationEffectClass != null)
+				{
+					VibrateWithVibrationEffect(force, durationMs);
+					return;
+				}
+
+				VibrateLegacy(durationMs);
+			}
+			catch (Exception exception)
+			{
+				Error($"Android vibration failed: {exception.Message}");
 			}
 		}
 		
-		public bool IsSupported() => 
-			_androidVibrator != null && _androidVibrator.Call<bool>("hasVibrator");
-
 		public void Cancel()
 		{
-			lock (_lock) 
-				_cts?.Cancel();
+			try
+			{
+				_androidVibrator?.Call("cancel");
+			}
+			catch (Exception exception)
+			{
+				Error($"Android vibration cancel failed: {exception.Message}");
+			}		
+		}
+
+		public void Dispose()
+		{
+			Cancel();
+
+			_androidVibrator?.Dispose();
+			_vibrationEffectClass?.Dispose();
+			_buildVersionClass?.Dispose();
+
+			_androidVibrator = null;
+			_vibrationEffectClass = null;
+			_buildVersionClass = null;
+		}
+		
+		private void VibrateWithVibrationEffect(float force, long durationMs)
+		{
+			int amplitude = GetAmplitude(force);
+
+			using AndroidJavaObject vibrationEffect = _vibrationEffectClass.CallStatic<AndroidJavaObject>(
+				"createOneShot",
+				durationMs,
+				amplitude);
+
+			_androidVibrator.Call("vibrate", vibrationEffect);
+		}
+		
+		private void VibrateLegacy(long durationMs)
+		{
+			_androidVibrator.Call("vibrate", durationMs);
+		}
+
+		private int GetAmplitude(float force)
+		{
+			if (_hasAmplitudeControl == false)
+				return DefaultAmplitude;
+
+			return Mathf.Clamp(
+				Mathf.RoundToInt(force * MaxAmplitude),
+				MinAmplitude,
+				MaxAmplitude);
 		}
 	}
 }
+#endif

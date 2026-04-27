@@ -14,6 +14,7 @@ namespace Code.Infrastructure.Scopes
 
 		protected override void RegisterProjectServices()
 		{
+			Debug("Registering CustomVibrationService");
 			RegisterService<ICustomVibrationService>(new CustomVibrationService());
 
 #if UNITY_IOS

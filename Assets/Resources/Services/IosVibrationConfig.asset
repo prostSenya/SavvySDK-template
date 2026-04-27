@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ec7bbd355406e46af6873c6ab77c9c, type: 3}
-  m_Name: CustomSO
+  m_Script: {fileID: 11500000, guid: 66790d1c437b4c40b3810ba056fb14df, type: 3}
+  m_Name: IosVibrationConfig
   m_EditorClassIdentifier: 
-  Debug: 0

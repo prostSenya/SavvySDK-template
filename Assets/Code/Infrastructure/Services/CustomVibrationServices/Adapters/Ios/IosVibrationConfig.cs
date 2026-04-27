@@ -1,9 +1,10 @@
+using Savvy.Interfaces;
 using UnityEngine;
 
 namespace Code.Infrastructure.Services.CustomVibrationServices.Adapters.Ios
 {
 	[CreateAssetMenu(fileName = nameof(IosVibrationConfig), menuName = "Config/"+nameof(IosVibrationConfig))]
-	public class IosVibrationConfig : ScriptableObject
+	public class IosVibrationConfig : ScriptableObject, IToolkitView
 	{
 		
 	}

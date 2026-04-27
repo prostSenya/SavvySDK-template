@@ -7,7 +7,9 @@ namespace Code.Infrastructure.Services.CustomVibrationServices
 	public class VibrationData
 	{
 		[field: SerializeField] public VibrationType VibrationType { get; private set; }
-		[field: SerializeField] public float Force { get; private set; }
+		[field: SerializeField] 
+		[field: Range(0, 1)]
+		public float Force { get; private set; }
 		[field: SerializeField] public float Duration { get; private set; }
 	}
 }

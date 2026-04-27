@@ -14,5 +14,11 @@ namespace Code.Infrastructure.Services.CustomVibrationServices
 		
 		public void SetEnabled(bool enabled) => 
 			_vibrationAdapter.SetEnable(enabled);
+		
+		public void Vibrate(VibrationType vibrationType) => 
+			_vibrationAdapter.Vibrate(vibrationType);
+		
+		public void Vibrate(float force, float duration) => 
+			_vibrationAdapter.Vibrate(force, duration);
 	}
 }
